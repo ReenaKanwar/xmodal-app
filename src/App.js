@@ -13,22 +13,24 @@ function App() {
   });
 
   const handleOpenModal = () => setIsModalOpen(true);
-
   const handleCloseModal = () => setIsModalOpen(false);
 
-  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         handleCloseModal();
       }
     };
+
     if (isModalOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isModalOpen]);
 
   const handleChange = (e) => {
@@ -40,41 +42,33 @@ function App() {
     e.preventDefault();
     const { username, email, phone, dob } = formData;
 
-    
-    if (!username) {
-      alert('Please fill out the username.');
-      return;
-    }
-    if (!email) {
-      alert('Please fill out the email.');
-      return;
-    }
-    if (!phone) {
-      alert('Please fill out the phone number.');
-      return;
-    }
-    if (!dob) {
-      alert('Please fill out the date of birth.');
+    if (!username || !email || !phone || !dob) {
+      if (!username) {
+        alert('Please fill out the username.');
+      } else if (!email) {
+        alert('Please fill out the email.');
+      } else if (!phone) {
+        alert('Please fill out the phone number.');
+      } else if (!dob) {
+        alert('Please fill out the date of birth.');
+      }
       return;
     }
 
-    
     if (!email.includes('@')) {
       alert('Invalid email. Please check your email address.');
       return;
     }
 
-    
     if (!/^\d{10}$/.test(phone)) {
       alert('Invalid phone number. Please enter a 10-digit phone number.');
       return;
     }
 
-    
     const selectedDate = new Date(dob);
     const today = new Date();
     if (selectedDate > today) {
-      alert('Invalid phone number. Please enter a 10-digit phone number.'); 
+      alert('Invalid date of birth. Please enter a valid date.');
       return;
     }
 
@@ -95,46 +89,50 @@ function App() {
       )}
 
       {isModalOpen && (
-        <div className="modal-content" ref={modalRef}>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Username:</label>
-              <input
-                type="text"
-                id="username"
-                value={formData.username}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Email:</label>
-              <input
-                type="email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Phone:</label>
-              <input
-                type="tel"
-                id="phone"
-                value={formData.phone}
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label>Date of Birth:</label>
-              <input
-                type="date"
-                id="dob"
-                value={formData.dob}
-                onChange={handleChange}
-              />
-            </div>
-            <button type="submit" className="submit-button">Submit</button>
-          </form>
+        <div className="modal-overlay">
+          <div className="modal-content" ref={modalRef}>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Username:</label>
+                <input
+                  type="text"
+                  id="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Phone:</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label>Date of Birth:</label>
+                <input
+                  type="date"
+                  id="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                />
+              </div>
+              <button type="submit" className="submit-button">
+                Submit
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>
