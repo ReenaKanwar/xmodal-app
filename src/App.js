@@ -36,9 +36,29 @@ function App() {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (e) => {
+ const handleSubmit = (e) => {
   e.preventDefault();
   const { username, email, phone, dob } = formData;
+
+  if (email && !email.includes('@')) {
+    alert('Invalid email. Please check your email address.');
+    return;
+  }
+
+  if (phone && !/^\d{10}$/.test(phone)) {
+    alert('Invalid phone number. Please enter a 10-digit phone number.');
+    return;
+  }
+
+  if (dob) {
+    const selectedDate = new Date(dob);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate > today) {
+      alert('Invalid date of birth. Please enter a valid date.');
+      return;
+    }
+  }
 
   if (!username) {
     alert('Please fill out the username.');
@@ -60,25 +80,6 @@ function App() {
     return;
   }
 
-
-  if (!email.includes('@')) {
-    alert('Invalid email. Please check your email address.');
-    return;
-  }
-
-  if (!/^\d{10}$/.test(phone)) {
-    alert('Invalid phone number. Please enter a 10-digit phone number.');
-    return;
-  }
-
-  const selectedDate = new Date(dob);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); 
-  if (selectedDate > today) {
-    alert('Invalid date of birth. Please enter a valid date.');
-    return;
-  }
-
   setFormData({
     username: '',
     email: '',
@@ -88,6 +89,7 @@ function App() {
 
   handleCloseModal();
 };
+
 
 
 
