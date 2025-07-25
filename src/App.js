@@ -37,55 +37,59 @@ function App() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const { username, email, phone, dob } = formData;
+  e.preventDefault();
+  const { username, email, phone, dob } = formData;
 
-    if (!username) {
-      alert('Please fill out the username.');
-      return;
-    }
+  if (!username) {
+    alert('Please fill out the username.');
+    return;
+  }
 
-    if (!email) {
-      alert('Please fill out the email.');
-      return;
-    }
+  if (email && !email.includes('@')) {
+    alert('Invalid email. Please check your email address.');
+    return;
+  }
 
-    if (!phone) {
-      alert('Please fill out the phone number.');
-      return;
-    }
+  if (!email) {
+    alert('Please fill out the email.');
+    return;
+  }
 
-    if (!dob) {
-      alert('Please fill out the date of birth.');
-      return;
-    }
+  if (phone && !/^\d{10}$/.test(phone)) {
+    alert('Invalid phone number. Please enter a 10-digit phone number.');
+    return;
+  }
 
-    if (!email.includes('@')) {
-      alert('Invalid email. Please check your email address.');
-      return;
-    }
+  if (!phone) {
+    alert('Please fill out the phone number.');
+    return;
+  }
 
-    if (!/^\d{10}$/.test(phone)) {
-      alert('Invalid phone number. Please enter a 10-digit phone number.');
-      return;
-    }
-
+  if (dob) {
     const selectedDate = new Date(dob);
     const today = new Date();
+    today.setHours(0, 0, 0, 0); 
     if (selectedDate > today) {
       alert('Invalid date of birth. Please enter a valid date.');
       return;
     }
+  }
 
-    setFormData({
-      username: '',
-      email: '',
-      phone: '',
-      dob: '',
-    });
+  if (!dob) {
+    alert('Please fill out the date of birth.');
+    return;
+  }
 
-    handleCloseModal();
-  };
+  setFormData({
+    username: '',
+    email: '',
+    phone: '',
+    dob: '',
+  });
+
+  handleCloseModal();
+};
+
 
   return (
     <div className="App">
