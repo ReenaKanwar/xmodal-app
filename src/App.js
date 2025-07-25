@@ -45,18 +45,8 @@ function App() {
     return;
   }
 
-  if (email && !email.includes('@')) {
-    alert('Invalid email. Please check your email address.');
-    return;
-  }
-
   if (!email) {
     alert('Please fill out the email.');
-    return;
-  }
-
-  if (phone && !/^\d{10}$/.test(phone)) {
-    alert('Invalid phone number. Please enter a 10-digit phone number.');
     return;
   }
 
@@ -65,18 +55,27 @@ function App() {
     return;
   }
 
-  if (dob) {
-    const selectedDate = new Date(dob);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); 
-    if (selectedDate > today) {
-      alert('Invalid date of birth. Please enter a valid date.');
-      return;
-    }
-  }
-
   if (!dob) {
     alert('Please fill out the date of birth.');
+    return;
+  }
+
+
+  if (!email.includes('@')) {
+    alert('Invalid email. Please check your email address.');
+    return;
+  }
+
+  if (!/^\d{10}$/.test(phone)) {
+    alert('Invalid phone number. Please enter a 10-digit phone number.');
+    return;
+  }
+
+  const selectedDate = new Date(dob);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); 
+  if (selectedDate > today) {
+    alert('Invalid date of birth. Please enter a valid date.');
     return;
   }
 
@@ -89,6 +88,7 @@ function App() {
 
   handleCloseModal();
 };
+
 
 
   return (
