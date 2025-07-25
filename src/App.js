@@ -40,20 +40,24 @@ function App() {
     e.preventDefault();
     const { username, email, phone, dob } = formData;
 
-    if (!username || !email || !phone || !dob) {
-      if (!username) {
-        alert('Please fill out the username.');
-        return;
-      } else if (!email) {
-        alert('Please fill out the email.');
-        return;
-      } else if (!phone) {
-        alert('Please fill out the phone number.');
-        return;
-      } else if (!dob) {
-        alert('Please fill out the date of birth.');
-        return;
-      }
+    if (!username) {
+      alert('Please fill out the username.');
+      return;
+    }
+
+    if (!email) {
+      alert('Please fill out the email.');
+      return;
+    }
+
+    if (!phone) {
+      alert('Please fill out the phone number.');
+      return;
+    }
+
+    if (!dob) {
+      alert('Please fill out the date of birth.');
+      return;
     }
 
     if (!email.includes('@')) {
@@ -79,67 +83,29 @@ function App() {
       phone: '',
       dob: '',
     });
+
     handleCloseModal();
   };
 
   return (
-    <>
-      {!isModalOpen && (
-        <div className="modal">
-          <button onClick={handleOpenModal}>Open Form</button>
-        </div>
-      )}
-
+    <div className="App">
+      <button onClick={handleOpenModal}>Open Form</button>
       {isModalOpen && (
         <div className="modal">
-          <div className="modal-overlay">
-            <div className="modal-content" ref={modalRef}>
-              <form onSubmit={handleSubmit}>
-                <div>
-                  <label>Username:</label>
-                  <input
-                    type="text"
-                    id="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label>Email:</label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label>Phone:</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label>Date of Birth:</label>
-                  <input
-                    type="date"
-                    id="dob"
-                    value={formData.dob}
-                    onChange={handleChange}
-                  />
-                </div>
-                <button type="submit" className="submit-button">
-                  Submit
-                </button>
-              </form>
-            </div>
+          <div className="modal-content" ref={modalRef}>
+            <h2>User Form</h2>
+            <form onSubmit={handleSubmit}>
+              <input id="username" placeholder="Username" value={formData.username} onChange={handleChange} />
+              <input id="email" placeholder="Email" value={formData.email} onChange={handleChange} />
+              <input id="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} />
+              <input id="dob" type="date" value={formData.dob} onChange={handleChange} />
+              <button type="submit" className="submit-button">Submit</button>
+            </form>
+            <button onClick={handleCloseModal}>Close</button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
